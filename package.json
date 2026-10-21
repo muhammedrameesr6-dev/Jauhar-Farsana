@@ -1,0 +1,20 @@
+{
+  "name": "mohammed-ali-and-farsana-wedding",
+  "version": "1.0.0",
+  "description": "Wedding Invitation Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "serve": "node server.js",
+    "preview": "node server.js",
+    "npv": "node server.js"
+  },
+  "keywords": [
+    "wedding",
+    "invitation",
+    "nikkah"
+  ],
+  "author": "",
+  "license": "ISC"
+}
