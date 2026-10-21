@@ -24,20 +24,21 @@
   }
 
 
-  /* ---- RSVP form ---- */
+  /* ---- RSVP form (Redirects to WhatsApp +971 52 220 3050) ---- */
   function initRSVP() {
     const form   = document.getElementById('rsvp-form');
     const status = document.getElementById('rsvp-status');
     if (!form) return;
 
-    // ⚠️ Paste your Google Apps Script Web App URL here after deploying
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-OirAHaQ4pnc4X4qgGyZ8aA17CKp4DgonCjLrpeQzB3Kj-b2lOVir02gHh5TJGmEF1w/exec';
+    const WHATSAPP_NUMBER = '971522203050';
 
-    form.addEventListener('submit', async function (e) {
+    form.addEventListener('submit', function (e) {
       e.preventDefault();
 
       const btn  = document.getElementById('rsvp-submit');
       const name = document.getElementById('rsvp-name').value.trim();
+      const guests = document.getElementById('rsvp-guests').value;
+      const message = document.getElementById('rsvp-message').value.trim();
 
       if (!name) {
         status.textContent = 'Please enter your name.';
@@ -46,38 +47,32 @@
       }
 
       btn.disabled       = true;
-      btn.innerHTML      = '<i class="fas fa-spinner fa-spin"></i><span>Sending…</span>';
-      status.textContent = '';
-      status.className   = 'rsvp-status';
+      btn.innerHTML      = '<i class="fa-brands fa-whatsapp fa-bounce"></i><span>Opening WhatsApp…</span>';
+      status.textContent = 'Redirecting to WhatsApp...';
+      status.className   = 'rsvp-status success';
 
-      const params = new URLSearchParams();
-      params.append('name',    name);
-      params.append('guests',  document.getElementById('rsvp-guests').value);
-      params.append('message', document.getElementById('rsvp-message').value.trim());
-
-      try {
-        await fetch(SCRIPT_URL, {
-          method:  'POST',
-          mode:    'no-cors',
-          body:    params
-        });
-
-        btn.innerHTML      = '<i class="fas fa-check"></i><span>Jazakallah Khair!</span>';
-        status.textContent = '✓ We have received your RSVP. May Allah bless you!';
-        status.className   = 'rsvp-status success';
-        form.reset();
-
-        setTimeout(() => {
-          btn.disabled  = false;
-          btn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Confirm Attendance</span>';
-        }, 4000);
-
-      } catch (err) {
-        btn.disabled       = false;
-        btn.innerHTML      = '<i class="fas fa-paper-plane"></i><span>Confirm Attendance</span>';
-        status.textContent = 'Something went wrong. Please try again.';
-        status.className   = 'rsvp-status error';
+      // Build formatted WhatsApp message
+      let text = `*Assalamu Alaikum!* 💐\n\n`;
+      text += `*Wedding RSVP Confirmation*\n`;
+      text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      text += `*Name:* ${name}\n`;
+      text += `*Number of Guests:* ${guests}\n`;
+      if (message) {
+        text += `*Dua / Message:* ${message}\n`;
       }
+      text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+      text += `May Allah bless Mohammed Ali Jauhar & Farsana Thesni! 🤲✨`;
+
+      const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+
+      setTimeout(() => {
+        window.open(waUrl, '_blank') || (window.location.href = waUrl);
+
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fa-brands fa-whatsapp"></i><span>Send RSVP via WhatsApp</span>';
+        status.textContent = '✓ Opened WhatsApp! Click send to deliver your RSVP.';
+        form.reset();
+      }, 500);
     });
   }
 
