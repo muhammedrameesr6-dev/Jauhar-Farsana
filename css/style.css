@@ -490,9 +490,18 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 
 .hero__name {
-  font-size: clamp(2.1rem, 7vw, 3.6rem);
-  letter-spacing: 0.03em;
-  font-weight: 500;
+  font-size: clamp(2rem, 6.5vw, 3.4rem);
+  letter-spacing: 0.05em;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.hero__lead-letter {
+  font-weight: 800;
+  font-size: 1.18em;
+  color: #ffffff;
+  display: inline-block;
+  text-shadow: 0 2px 16px rgba(255, 255, 255, 0.4), 0 0 24px rgba(212, 175, 55, 0.35);
 }
 
 .hero__amp {
